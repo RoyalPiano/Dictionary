@@ -1,6 +1,5 @@
 package ru.example.dictionary.feature_dictionary.presentation.dictionary
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import ru.example.dictionary.R
@@ -10,15 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import ru.example.dictionary.core.util.Resource
 import ru.example.dictionary.feature_dictionary.presentation.WordInfoItem
 import ru.example.dictionary.feature_dictionary.presentation.WordInfoViewModel
+import ru.example.dictionary.feature_dictionary.presentation.dictionary.components.ResourceStateHandler
 
 @Composable
 fun DictionaryScreen(
@@ -63,24 +61,7 @@ fun DictionaryScreen(
                     }
                 }
             }
-            StateHandler(state, Modifier.align(Alignment.Center))
+            ResourceStateHandler(state, Modifier.align(Alignment.Center))
         }
-    }
-}
-
-@Composable
-fun <T> StateHandler(state: Resource<T>, modifier: Modifier = Modifier) {
-    when(state) {
-        is Resource.Loading -> {
-            CircularProgressIndicator(modifier)
-        }
-        is Resource.Error -> {
-            Toast.makeText(
-                LocalContext.current,
-                state.message.asString(),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        is Resource.Success -> {}
     }
 }

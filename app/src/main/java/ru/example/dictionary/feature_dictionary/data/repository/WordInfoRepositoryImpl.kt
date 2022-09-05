@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.example.dictionary.R
-import ru.example.dictionary.core.util.Constants
 import ru.example.dictionary.core.util.Resource
 import ru.example.dictionary.core.util.UiText
 import ru.example.dictionary.feature_dictionary.data.local.WordInfoDao

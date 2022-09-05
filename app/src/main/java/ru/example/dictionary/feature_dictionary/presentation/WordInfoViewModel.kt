@@ -18,19 +18,15 @@ class WordInfoViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery: StateFlow<String> = _searchQuery
+    val searchQuery = _searchQuery.asStateFlow()
 
-    private val _state = MutableStateFlow<Resource<List<WordInfo>>>(Resource.Loading())
-    val state: StateFlow<Resource<List<WordInfo>>> = _state
+    private val _state = MutableStateFlow<Resource<List<WordInfo>>>(Resource.Success(emptyList()))
+    val state = _state.asStateFlow()
 
     private val _wordInfos = MutableStateFlow<List<WordInfo>>(emptyList())
-    val wordInfos: StateFlow<List<WordInfo>> = _wordInfos
+    val wordInfos = _wordInfos.asStateFlow()
 
     private var searchJob: Job? = null
-
-    init {
-        onSearch("")
-    }
 
     fun refreshData() {
         onSearch(searchQuery.value)
