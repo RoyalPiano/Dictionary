@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Dictionary</string>
+    <string name="http_error_msg">Oop, Http error</string>
+    <string name="http_404_exception">Sorry, we can\'t find this word in our dictionary</string>
+    <string name="io_exception">Couldn\'t reach server, check your internet connection.</string>
+    <string name="unknown_exception">Unknown error</string>
+    <string name="search_tip">Search…</string>
+</resources>
