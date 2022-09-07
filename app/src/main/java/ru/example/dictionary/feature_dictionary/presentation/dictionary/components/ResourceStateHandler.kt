@@ -9,30 +9,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import ru.example.dictionary.core.util.Resource
+import ru.example.dictionary.feature_dictionary.presentation.dictionary.WordInfoState
 
 @Composable
-fun <T> ResourceStateHandler(state: Resource<T>, modifier: Modifier = Modifier) {
+fun ResourceStateHandler(state: WordInfoState, modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxHeight()) {
-        when (state) {
-            is Resource.Success -> {
-            }
-            is Resource.Error -> {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                ) {
-                    Text(
-                        fontStyle = FontStyle.Italic,
-                        style = MaterialTheme.typography.caption,
-                        text = state.message.asString(),
-                        color = MaterialTheme.colors.error,
-                        textAlign = TextAlign.Center,
-                    )
-                }
-            }
-            is Resource.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        if(state.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
+
+        state.errorMessage?.let {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+            ) {
+                Text(
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.caption,
+                    text = it.asString(),
+                    color = MaterialTheme.colors.error,
+                    textAlign = TextAlign.Center,
+                )
             }
         }
     }

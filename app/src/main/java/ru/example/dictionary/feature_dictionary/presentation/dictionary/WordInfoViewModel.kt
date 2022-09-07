@@ -1,4 +1,4 @@
-package ru.example.dictionary.feature_dictionary.presentation
+package ru.example.dictionary.feature_dictionary.presentation.dictionary
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,7 +8,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import ru.example.dictionary.core.util.Constants
 import ru.example.dictionary.core.util.Resource
-import ru.example.dictionary.feature_dictionary.domain.model.WordInfo
 import ru.example.dictionary.feature_dictionary.domain.use_case.GetWordInfoUseCase
 import javax.inject.Inject
 
@@ -20,11 +19,8 @@ class WordInfoViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
-    private val _state = MutableStateFlow<Resource<List<WordInfo>>>(Resource.Success(emptyList()))
+    private val _state = MutableStateFlow(WordInfoState())
     val state = _state.asStateFlow()
-
-    private val _wordInfos = MutableStateFlow<List<WordInfo>>(emptyList())
-    val wordInfos = _wordInfos.asStateFlow()
 
     private var searchJob: Job? = null
 
@@ -39,15 +35,15 @@ class WordInfoViewModel @Inject constructor(
             .onEach { result ->
                 when(result) {
                     is Resource.Success -> {
-                        _wordInfos.emit(result.data)
+                        _state.emit(WordInfoState(wordInfos = result.data, isLoading = false, errorMessage = null))
                     }
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        _state.update { it.copy(errorMessage = result.message, isLoading = false) }
+                    }
                     is Resource.Loading -> {
-                        result.data?.let { _wordInfos.emit(it) }
+                        _state.update { it.copy(isLoading = true) }
                     }
                 }
-
-                _state.emit(result)
             }.launchIn(viewModelScope)
         }
     }

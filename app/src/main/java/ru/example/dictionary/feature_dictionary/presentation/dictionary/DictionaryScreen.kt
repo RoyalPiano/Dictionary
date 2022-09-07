@@ -15,7 +15,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.example.dictionary.feature_dictionary.presentation.WordInfoItem
-import ru.example.dictionary.feature_dictionary.presentation.WordInfoViewModel
 import ru.example.dictionary.feature_dictionary.presentation.dictionary.components.ResourceStateHandler
 
 @Composable
@@ -23,8 +22,6 @@ fun DictionaryScreen(
     viewModel: WordInfoViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState().value
-    val wordInfos = viewModel.wordInfos.collectAsState().value
-    val searchQuery = viewModel.searchQuery.collectAsState().value
     SwipeRefresh(
         state = rememberSwipeRefreshState(false),
         onRefresh = {
@@ -37,7 +34,7 @@ fun DictionaryScreen(
                 .fillMaxSize()
                 .padding(16.dp)) {
                 TextField(
-                    value = searchQuery,
+                    value = viewModel.searchQuery.collectAsState().value,
                     onValueChange = viewModel::onSearch,
                     modifier = Modifier.fillMaxWidth(),
                     placeholder = {
@@ -49,13 +46,13 @@ fun DictionaryScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(wordInfos.size) { i ->
-                        val wordInfo = wordInfos[i]
+                    items(state.wordInfos.size) { i ->
+                        val wordInfo = state.wordInfos[i]
                         if(i > 0) {
                             Spacer(modifier = Modifier.height(8.dp))
                         }
                         WordInfoItem(wordInfo = wordInfo)
-                        if(i < wordInfos.size - 1) {
+                        if(i < state.wordInfos.size - 1) {
                             Divider()
                         }
                     }

@@ -20,27 +20,27 @@ class WordInfoRepositoryImpl(
         emit(Resource.Loading())
         if(word.isBlank()) {
             emit(Resource.Success(emptyList()))
+            return@flow
         }
-        else {
-            val wordInfos = dao.getWordInfos(word).map { it.toWordInfo() }
-            emit(Resource.Loading(wordInfos))
+        
+        val wordInfos = dao.getWordInfos(word).map { it.toWordInfo() }
+        emit(Resource.Loading(wordInfos))
 
-            try {
-                val remoteWordInfos = api.getWordInfo(word)
-                dao.deleteWordInfos(remoteWordInfos.map { it.word })
-                dao.insertWordInfos(remoteWordInfos.map { it.toWordInfoEntity() })
-                val newWordInfos = dao.getWordInfos(word).map { it.toWordInfo() }
-                emit(Resource.Success(newWordInfos))
-            } catch (e: HttpException) {
-                if(e.localizedMessage.isNullOrEmpty()) {
-                    emit(Resource.Error(UiText.StringResource(R.string.unknown_exception)))
-                }
-                else {
-                    emit(Resource.Error(UiText.StringResource(R.string.http_404_exception)))
-                }
-            } catch (e: IOException) {
-                emit(Resource.Error(UiText.StringResource(R.string.io_exception)))
+        try {
+            val remoteWordInfos = api.getWordInfo(word)
+            dao.deleteWordInfos(remoteWordInfos.map { it.word })
+            dao.insertWordInfos(remoteWordInfos.map { it.toWordInfoEntity() })
+            val newWordInfos = dao.getWordInfos(word).map { it.toWordInfo() }
+            emit(Resource.Success(newWordInfos))
+        } catch (e: HttpException) {
+            if(e.localizedMessage.isNullOrEmpty()) {
+                emit(Resource.Error(UiText.StringResource(R.string.unknown_exception)))
             }
+            else {
+                emit(Resource.Error(UiText.StringResource(R.string.http_404_exception)))
+            }
+        } catch (e: IOException) {
+            emit(Resource.Error(UiText.StringResource(R.string.io_exception)))
         }
     }
 
