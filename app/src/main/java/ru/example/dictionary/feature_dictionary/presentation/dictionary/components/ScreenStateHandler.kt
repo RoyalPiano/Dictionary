@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import ru.example.dictionary.feature_dictionary.presentation.interfaces.ScreenState
 
 @Composable
-fun <T> WordInfoStateHandler(state: ScreenState<T>, modifier: Modifier = Modifier) {
+fun <T> ScreenStateHandler(state: ScreenState<T>, modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxHeight()) {
         if(state.isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))

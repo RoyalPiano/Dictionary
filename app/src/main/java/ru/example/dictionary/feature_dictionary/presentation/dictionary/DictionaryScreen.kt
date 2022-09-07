@@ -15,7 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.example.dictionary.feature_dictionary.presentation.WordInfoItem
-import ru.example.dictionary.feature_dictionary.presentation.dictionary.components.WordInfoStateHandler
+import ru.example.dictionary.feature_dictionary.presentation.dictionary.components.ScreenStateHandler
 
 @Composable
 fun DictionaryScreen(
@@ -58,7 +58,7 @@ fun DictionaryScreen(
                     }
                 }
             }
-            WordInfoStateHandler(state, Modifier.align(Alignment.Center))
+            ScreenStateHandler(state, Modifier.align(Alignment.Center))
         }
     }
 }
