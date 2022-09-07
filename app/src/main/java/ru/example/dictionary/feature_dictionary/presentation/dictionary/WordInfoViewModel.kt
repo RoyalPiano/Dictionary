@@ -35,13 +35,13 @@ class WordInfoViewModel @Inject constructor(
             .onEach { result ->
                 when(result) {
                     is Resource.Success -> {
-                        _state.emit(WordInfoState(wordInfos = result.data, isLoading = false, errorMessage = null))
+                        _state.emit(WordInfoState(data = result.data, isLoading = false, errorMessage = null))
                     }
                     is Resource.Error -> {
                         _state.update { it.copy(errorMessage = result.message, isLoading = false) }
                     }
                     is Resource.Loading -> {
-                        _state.update { it.copy(isLoading = true) }
+                        _state.emit(WordInfoState(isLoading = true, errorMessage = null, data = result.data.orEmpty()))
                     }
                 }
             }.launchIn(viewModelScope)

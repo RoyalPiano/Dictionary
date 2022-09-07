@@ -15,7 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.example.dictionary.feature_dictionary.presentation.WordInfoItem
-import ru.example.dictionary.feature_dictionary.presentation.dictionary.components.ResourceStateHandler
+import ru.example.dictionary.feature_dictionary.presentation.dictionary.components.WordInfoStateHandler
 
 @Composable
 fun DictionaryScreen(
@@ -46,19 +46,19 @@ fun DictionaryScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(state.wordInfos.size) { i ->
-                        val wordInfo = state.wordInfos[i]
+                    items(state.data.size) { i ->
+                        val wordInfo = state.data[i]
                         if(i > 0) {
                             Spacer(modifier = Modifier.height(8.dp))
                         }
                         WordInfoItem(wordInfo = wordInfo)
-                        if(i < state.wordInfos.size - 1) {
+                        if(i < state.data.size - 1) {
                             Divider()
                         }
                     }
                 }
             }
-            ResourceStateHandler(state, Modifier.align(Alignment.Center))
+            WordInfoStateHandler(state, Modifier.align(Alignment.Center))
         }
     }
 }

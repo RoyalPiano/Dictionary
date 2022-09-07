@@ -2,9 +2,10 @@ package ru.example.dictionary.feature_dictionary.presentation.dictionary
 
 import ru.example.dictionary.core.util.UiText
 import ru.example.dictionary.feature_dictionary.domain.model.WordInfo
+import ru.example.dictionary.feature_dictionary.presentation.interfaces.ScreenState
 
 data class WordInfoState(
-    val isLoading: Boolean = false,
-    val wordInfos: List<WordInfo> = emptyList(),
-    val errorMessage: UiText? = null
-)
+    override val isLoading: Boolean = false,
+    override val data: List<WordInfo> = emptyList(),
+    override val errorMessage: UiText? = null
+): ScreenState<List<WordInfo>>
