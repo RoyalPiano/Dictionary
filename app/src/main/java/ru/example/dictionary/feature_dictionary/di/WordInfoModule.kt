@@ -11,12 +11,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.example.dictionary.core.util.Constants
 import ru.example.dictionary.feature_dictionary.data.local.Converters
+import ru.example.dictionary.feature_dictionary.data.local.WordInfoDao
 import ru.example.dictionary.feature_dictionary.data.local.WordInfoDatabase
 import ru.example.dictionary.feature_dictionary.data.remote.DictionaryAPI
-import ru.example.dictionary.feature_dictionary.data.repository.WordInfoRepositoryImpl
 import ru.example.dictionary.feature_dictionary.data.util.GsonParser
-import ru.example.dictionary.feature_dictionary.domain.repository.WordInfoRepository
-import ru.example.dictionary.feature_dictionary.domain.use_case.GetWordInfoUseCase
 import javax.inject.Singleton
 
 @Module
@@ -25,17 +23,10 @@ object WordInfoModule {
 
     @Provides
     @Singleton
-    fun provideGetWordInfoUseCase(repository: WordInfoRepository): GetWordInfoUseCase {
-        return GetWordInfoUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideWordInfoRepository(
+    fun provideDao(
         db: WordInfoDatabase,
-        api: DictionaryAPI
-    ): WordInfoRepository {
-        return WordInfoRepositoryImpl(api, db.dao)
+    ): WordInfoDao {
+        return db.dao
     }
 
     @Provides

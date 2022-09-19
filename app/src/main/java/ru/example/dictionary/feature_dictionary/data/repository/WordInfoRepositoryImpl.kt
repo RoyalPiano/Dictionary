@@ -11,8 +11,9 @@ import ru.example.dictionary.feature_dictionary.data.remote.DictionaryAPI
 import ru.example.dictionary.feature_dictionary.domain.model.WordInfo
 import ru.example.dictionary.feature_dictionary.domain.repository.WordInfoRepository
 import java.io.IOException
+import javax.inject.Inject
 
-class WordInfoRepositoryImpl(
+class WordInfoRepositoryImpl @Inject constructor(
     private val api: DictionaryAPI,
     private val dao: WordInfoDao
 ): WordInfoRepository {
@@ -43,5 +44,4 @@ class WordInfoRepositoryImpl(
             emit(Resource.Error(UiText.StringResource(R.string.io_exception)))
         }
     }
-
 }
